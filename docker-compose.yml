@@ -1,0 +1,27 @@
+version: "3.8"
+services:
+  video-gen:
+    build: .
+    container_name: video-generator
+    ports:
+      - "8000:8000"
+    volumes:
+      - ./work:/app/work
+      - ./models:/app/models
+      - ./app/static:/app/static
+      - ./external:/app/external
+    environment:
+      - WAV2LIP_PATH=/app/external/Wav2Lip
+      - SD_MODEL=local
+      - SD_MODEL_ID=runwayml/stable-diffusion-v1-5
+      - TTS_ENGINE=coqui
+      - TTS_MODEL=tts_models/es/css10/vits
+    restart: unless-stopped
+    # For NVIDIA GPU (optional):
+    # deploy:
+    #   resources:
+    #     reservations:
+    #       devices:
+    #         - driver: nvidia
+    #           count: all
+    #           capabilities: [gpu]

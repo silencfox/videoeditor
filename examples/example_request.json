@@ -1,0 +1,9 @@
+{
+  "script": "Escena 1: Un parque al amanecer. Juan se presenta y saluda.\n\nEscena 2: Juan camina hacia un árbol y encuentra una carta.",
+  "audio": true,
+  "voice": "tts_models/es/css10/vits",
+  "fps": 6,
+  "frames_per_scene": 8,
+  "use_sd": false,
+  "internet_ok": true
+}

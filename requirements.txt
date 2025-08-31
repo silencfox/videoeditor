@@ -1,0 +1,16 @@
+fastapi
+uvicorn[standard]
+pydantic>=2.0.0
+python-multipart
+aiofiles
+ffmpeg-python
+Pillow
+numpy
+soundfile
+librosa
+# Optional heavier packages (install only if needed)
+torch>=2.0.0
+transformers
+diffusers
+#TTS==0.13.0
+TTS

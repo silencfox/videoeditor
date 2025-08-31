@@ -1,0 +1,5 @@
+Escena 1: Un parque al amanecer. Juan se presenta y saluda.
+
+Escena 2: Juan camina hacia un árbol y encuentra una carta.
+
+Escena 3: Primer plano del rostro de Juan leyendo la carta.

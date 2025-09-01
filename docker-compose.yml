@@ -10,6 +10,8 @@ services:
       - ./models:/app/models
       - ./app/static:/app/static
       - ./external:/app/external
+      - ./cache/tts:/root/.local/share/tts
+      - ./app/input:/app/input
     environment:
       - WAV2LIP_PATH=/app/external/Wav2Lip
       - SD_MODEL=local

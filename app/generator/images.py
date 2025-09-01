@@ -1,6 +1,24 @@
 from pathlib import Path
 from PIL import Image, ImageDraw, ImageFont
+from .utils import run_cmd
 
+
+def frames_from_still(image_path: str, out_dir: Path, total_frames: int, size=(512,512)):
+    out_dir.mkdir(parents=True, exist_ok=True)
+    img = Image.open(image_path).convert("RGB")
+    if size: img = img.resize(size)
+    for i in range(total_frames):
+        img.save(out_dir / f"frame{i:04d}.png")
+
+def frames_from_video(video_path: str, out_dir: Path, fps: int):
+    out_dir.mkdir(parents=True, exist_ok=True)
+    # extrae frames uniformes con ffmpeg
+    run_cmd([
+        "ffmpeg","-y","-i", video_path,
+        "-vf", f"fps={fps}",
+        str(out_dir / "frame%04d.png")
+    ])
+    
 def gen_simple_frame(text, out_path: Path, size=(512, 512)):
     out_path.parent.mkdir(parents=True, exist_ok=True)
     img = Image.new("RGB", size, color=(30, 30, 40))

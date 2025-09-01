@@ -2,12 +2,15 @@ from fastapi import FastAPI
 from pydantic import BaseModel
 from pathlib import Path
 import uuid, os
+import shutil
+
 
 from .config import WORK_DIR, SD_MODEL_ID, TTS_ENGINE, TTS_MODEL
 from .generator import images as images_mod
 from .generator import tts as tts_mod
 from .generator import assemble as assemble_mod
 from .generator import wav2lip as wav2lip_mod
+from typing import Optional
 
 app = FastAPI(title="Script -> Video generator")
 
@@ -24,6 +27,8 @@ class GenerateRequest(BaseModel):
     sd_width: int = 448
     sd_height: int = 448
     apply_wav2lip: bool = False
+    face_path: Optional[str] = None        # ej: "/app/input/zelda.jpg" o "/app/input/base.mp4"
+    face_is_video: bool = False            # true si face_path es un .mp4
 
 @app.post("/generate")
 def generate(req: GenerateRequest):
@@ -71,6 +76,21 @@ def generate(req: GenerateRequest):
         except Exception as e:
             print("TTS failed:", e)
             final_video = raw_video
+
+    if req.face_path:
+        if req.face_is_video:
+            images_mod.frames_from_video(req.face_path, frames_dir, req.fps)
+        else:
+            total = max(1, req.frames_per_scene * max(1, len([s for s in req.script.split("\n\n") if s.strip()])))
+            images_mod.frames_from_still(req.face_path, frames_dir, total, (req.sd_width, req.sd_height))
+    else:
+        frames = images_mod.generate_images_from_script(
+            req.script, frames_dir,
+            frames_per_scene=req.frames_per_scene,
+            use_sd=req.use_sd, internet_ok=req.internet_ok,
+            sd_steps=req.sd_steps, sd_guidance=req.sd_guidance,
+            sd_width=req.sd_width, sd_height=req.sd_height
+        )
 
     return {"job_id": job_id, "download": f"/download/{job_id}"}
 

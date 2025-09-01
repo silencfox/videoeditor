@@ -41,6 +41,29 @@ docker-compose build
 docker-compose up -d
 ```
 
+
+curl -X POST http://localhost:8000/generate \
+  -H "Content-Type: application/json" \
+  -d '{
+    "script": "Hola, soy zelda y esta es mi historia",
+    "audio": true,
+    "use_sd": false,
+    "fps": 8,
+    "frames_per_scene": 8,
+    "face_path": "/app/input/zelda.png",
+    "face_is_video": false
+  }'
+
+
+curl -X POST http://localhost:8000/generate -H "Content-Type: application/json" -d '{                       
+  "script":"Hola, soy Juan y esta es mi historia.",
+  "audio": true,
+  "use_sd": false,
+  "voice": "tts_models/es/css10/vits"
+}'
+
+
+
 ### Probar API
 ```bash
 curl -X POST "http://localhost:8000/generate" -H "Content-Type: application/json" -d @examples/example_request.json

@@ -5,17 +5,16 @@ python-multipart
 aiofiles
 ffmpeg-python
 Pillow
-numpy<2.0
-soundfile
-librosa
+#numpy<2.0
+#soundfile
+#librosa
 # Optional heavier packages (install only if needed)
 torch==2.8.0+cpu
 torchvision==0.23.0+cpu
 torchaudio==2.8.0+cpu
 transformers
 diffusers
-#TTS==0.13.0
-TTS==0.22.0
+
 
 ## Adicionales para imagen base
 
@@ -24,3 +23,8 @@ numba
 tqdm
 
 
+scipy==1.11.4
+numpy==1.26.4
+soundfile==0.12.1
+librosa==0.10.1
+TTS==0.22.0

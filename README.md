@@ -73,6 +73,51 @@ curl -X POST http://localhost:8000/generate \
   -F "overlay_font_size=28" \
   -F "face=@/c/Users/kalcala/repositorio/videoeditor/app/input/zelda.png"
 
+
+######  3
+## stable difusion animado desde scripts
+curl -sS -X POST http://localhost:8000/generate_json   -H 'Content-Type: application/json'   --data-binary @- << 'JSON'
+{
+  "text": "Zelda camina por el bosque místico.\n\nDescubre un templo antiguo.\n\nLa espada brilla con energía.",
+  "audio": true,
+  "fps": 8,
+  "animation_mode": "story_to_video",
+  "style": "anime",
+  "sd_key_steps": 24,
+  "sd_key_guidance": 7.0,
+  "sd_anim_steps": 18,
+  "sd_anim_guidance": 6.5,
+  "sd_strength_base": 0.10,
+  "sd_strength_max": 0.20,
+  "sd_seed": 1234
+}
+JSON
+
+##### Usando payload file
+# payload.json
+{
+  "text": "Zelda camina por el bosque místico.\n\nDescubre un templo antiguo.\n\nLa espada brilla con energía.",
+  "audio": true,
+  "fps": 8,
+  "animation_mode": "story_to_video",
+  "style": "anime",
+  "sd_key_steps": 24,
+  "sd_key_guidance": 7.0,
+  "sd_anim_steps": 18,
+  "sd_anim_guidance": 6.5,
+  "sd_strength_base": 0.10,
+  "sd_strength_max": 0.20,
+  "sd_seed": 1234
+}
+
+
+### request
+curl -sS -X POST http://localhost:8000/generate_json \
+  -H 'Content-Type: application/json' \
+  --data-binary @payload.json
+
+
+####
 # Respuesta: { "job_id": "<id>", "download": "/download/<id>" }
 curl -O "http://localhost:8000/download/<id>"
 

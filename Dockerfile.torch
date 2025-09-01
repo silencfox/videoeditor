@@ -9,6 +9,7 @@ ENV DEBIAN_FRONTEND=noninteractive \
 
 ARG INSTALL_TORCH_CPU=true
 
+RUN git clone https://github.com/Rudrabha/Wav2Lip /app/external/Wav2Lip
 
 COPY requirements.txt .
 
@@ -29,7 +30,7 @@ RUN python -m pip install --root-user-action=ignore --upgrade pip && \
     fi
 # Coqui TTS compatible con Python 3.8
 
-RUN git clone https://github.com/Rudrabha/Wav2Lip /app/external/Wav2Lip
+COPY . /app
 
 # Usuario no root
 #RUN adduser --disabled-password --gecos "" appuser

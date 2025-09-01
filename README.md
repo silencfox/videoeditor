@@ -42,46 +42,43 @@ docker-compose up -d
 ```
 
 
-curl -X POST http://localhost:8000/generate \
+
+
+### Probar API
+```bash
+##JSON (tu caso, con imagen ya en el contenedor)
+curl -X POST http://localhost:8000/generate_json \
   -H "Content-Type: application/json" \
   -d '{
-    "script": "Hola, soy Zelda y esta es mi historia",
+    "text": "Hola, soy Zelda y esta es mi historia",
     "audio": true,
-    "use_sd": false,
     "fps": 8,
     "frames_per_scene": 8,
-    "face_path": "/app/input/zelda.jpg",
+    "face_path": "/app/input/zelda.png",
     "face_is_video": false,
     "overlay_text": true,
-    "overlay_source": "script",
     "overlay_position": "bottom",
     "overlay_font_size": 28
   }'
 
 
+##form-data (subiendo el archivo desde tu host)
 curl -X POST http://localhost:8000/generate \
-  -H "Content-Type: application/json" \
-  -d '{
-    "script": "Narración encima del clip",
-    "audio": true,
-    "use_sd": false,
-    "fps": 8,
-    "face_path": "/app/input/base.mp4",
-    "face_is_video": true,
-    "overlay_text": true,
-    "overlay_source": "custom",
-    "overlay_custom": "¡Bienvenidos al canal KDvops!",
-    "overlay_position": "top",
-    "overlay_font_size": 34
-  }'
+  -F "text=Hola, soy Zelda y esta es mi historia" \
+  -F "audio=true" \
+  -F "fps=8" \
+  -F "frames_per_scene=8" \
+  -F "overlay_text=true" \
+  -F "overlay_position=bottom" \
+  -F "overlay_font_size=28" \
+  -F "face=@/c/Users/kalcala/repositorio/videoeditor/app/input/zelda.png"
 
-
-
-### Probar API
-```bash
-curl -X POST "http://localhost:8000/generate" -H "Content-Type: application/json" -d @examples/example_request.json
 # Respuesta: { "job_id": "<id>", "download": "/download/<id>" }
 curl -O "http://localhost:8000/download/<id>"
+
+docker exec -it video-generator-wav2lip ffprobe -hide_banner /app/work/d0d06a2d/final.mp4
+
+
 ```
 
 ### Ejemplo de request

@@ -1,0 +1,31 @@
+# syntax=docker/dockerfile:1.7-labs
+#FROM python:3.8-slim-bullseye
+FROM python:3.11-slim
+
+
+ENV DEBIAN_FRONTEND=noninteractive \
+    PYTHONDONTWRITEBYTECODE=1 \
+    PYTHONUNBUFFERED=1 \
+    PIP_NO_CACHE_DIR=1 \
+    TZ=Etc/UTC
+
+# Paquetes del sistema, con caché de apt
+RUN --mount=type=cache,target=/var/cache/apt \
+    --mount=type=cache,target=/var/lib/apt \
+    apt-get update && apt-get install -y --no-install-recommends \
+      ca-certificates \
+      curl wget git \
+      ffmpeg \
+      build-essential \
+      libsndfile1 \
+      libgl1 libglib2.0-0 libsm6 libxext6 \
+    && rm -rf /var/lib/apt/lists/*
+
+# Actualiza pip
+RUN python -m pip install --upgrade pip wheel setuptools
+
+
+# Usuario no root
+#RUN adduser --disabled-password --gecos "" appuser
+#USER appuser
+WORKDIR /app

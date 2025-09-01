@@ -1,0 +1,3 @@
+# .dockerignore
+external/Wav2Lip
+external/Wav2Lip/**

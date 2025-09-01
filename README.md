@@ -28,6 +28,15 @@ API en FastAPI que recibe un guion y genera un video animado:
 git clone https://github.com/Rudrabha/Wav2Lip external/Wav2Lip
 #dentro de external/Wav2Lip instala requirements si quieres usar lip-sync con GPU/torch
 
+docker build -t silencfox/py38-slim-bullseye:base-os -f .\Dockerfile.base .
+docker build -t silencfox/py38-slim-bullseye:torch -f .\Dockerfile.torch .
+docker build -t silencfox/py38-slim-bullseye:Wav2Lip -f .\Dockerfile .
+
+
+docker compose -f .\docker-compose_base.yml build
+docker compose -f .\docker-compose_torch.yml build
+docker compose up --build
+
 docker-compose build
 docker-compose up -d
 ```

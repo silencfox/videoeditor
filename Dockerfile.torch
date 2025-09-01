@@ -1,0 +1,37 @@
+# syntax=docker/dockerfile:1.7-labs
+FROM silencfox/py311-slim:base-os
+
+ENV DEBIAN_FRONTEND=noninteractive \
+    PYTHONDONTWRITEBYTECODE=1 \
+    PYTHONUNBUFFERED=1 \
+    PIP_NO_CACHE_DIR=1 \
+    TZ=Etc/UTC
+
+ARG INSTALL_TORCH_CPU=true
+
+
+COPY requirements.txt .
+
+#RUN pip install --prefer-binary \
+#    "TTS==0.22.0" 
+    #"numpy<1.24" \
+    #"protobuf<4" \
+    #"llvmlite<0.41" \
+    #"numba<0.58"
+#RUN --mount=type=cache,target=/root/.cache/pip \
+#    pip install -r requirements.txt
+
+RUN python -m pip install --root-user-action=ignore --upgrade pip && \
+    if [ "$INSTALL_TORCH_CPU" = "true" ]; then \
+      pip install --extra-index-url https://download.pytorch.org/whl/cpu --prefer-binary -r requirements.txt; \
+    else \
+        pip install --root-user-action=ignore --prefer-binary -r requirements.txt; \
+    fi
+# Coqui TTS compatible con Python 3.8
+
+RUN git clone https://github.com/Rudrabha/Wav2Lip /app/external/Wav2Lip
+
+# Usuario no root
+#RUN adduser --disabled-password --gecos "" appuser
+#USER appuser
+WORKDIR /app

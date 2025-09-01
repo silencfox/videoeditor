@@ -5,12 +5,22 @@ python-multipart
 aiofiles
 ffmpeg-python
 Pillow
-numpy
+numpy<2.0
 soundfile
 librosa
 # Optional heavier packages (install only if needed)
-torch>=2.0.0
+torch==2.8.0+cpu
+torchvision==0.23.0+cpu
+torchaudio==2.8.0+cpu
 transformers
 diffusers
 #TTS==0.13.0
-TTS
+TTS==0.22.0
+
+## Adicionales para imagen base
+
+opencv-python-headless
+numba
+tqdm
+
+

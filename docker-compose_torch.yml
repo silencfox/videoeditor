@@ -1,8 +1,10 @@
 services:
   video-gen:
-    build: .
-    image: silencfox/py311-slim:Wav2Lip
-    container_name: video-generator-wav2lip
+    build:
+      context: .
+      dockerfile: Dockerfile.torch
+    image: silencfox/py311-slim:torch
+    container_name: video-generator-torch
     ports:
       - "8000:8000"
     volumes:

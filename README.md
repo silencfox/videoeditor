@@ -45,22 +45,35 @@ docker-compose up -d
 curl -X POST http://localhost:8000/generate \
   -H "Content-Type: application/json" \
   -d '{
-    "script": "Hola, soy zelda y esta es mi historia",
+    "script": "Hola, soy Zelda y esta es mi historia",
     "audio": true,
     "use_sd": false,
     "fps": 8,
     "frames_per_scene": 8,
-    "face_path": "/app/input/zelda.png",
-    "face_is_video": false
+    "face_path": "/app/input/zelda.jpg",
+    "face_is_video": false,
+    "overlay_text": true,
+    "overlay_source": "script",
+    "overlay_position": "bottom",
+    "overlay_font_size": 28
   }'
 
 
-curl -X POST http://localhost:8000/generate -H "Content-Type: application/json" -d '{                       
-  "script":"Hola, soy Juan y esta es mi historia.",
-  "audio": true,
-  "use_sd": false,
-  "voice": "tts_models/es/css10/vits"
-}'
+curl -X POST http://localhost:8000/generate \
+  -H "Content-Type: application/json" \
+  -d '{
+    "script": "Narración encima del clip",
+    "audio": true,
+    "use_sd": false,
+    "fps": 8,
+    "face_path": "/app/input/base.mp4",
+    "face_is_video": true,
+    "overlay_text": true,
+    "overlay_source": "custom",
+    "overlay_custom": "¡Bienvenidos al canal KDvops!",
+    "overlay_position": "top",
+    "overlay_font_size": 34
+  }'
 
 
 
